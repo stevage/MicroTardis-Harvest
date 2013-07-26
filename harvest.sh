@@ -39,6 +39,7 @@ VERBOSE=1
 # --delete                                delete files that don't exist on sender
 # --progress                              show progress during transfer
 # --exclude                               don't copy junk files (like Windows thumbnails)
+
 # --modify-window                         compares times with less accuracy (supposed to be good for Windows systems)
 RSYNCOPTIONS="-rltSh --modify-window=2 --progress --exclude 'Thumbs.db'";
 
@@ -102,7 +103,7 @@ if [ ${STATUS} -eq 0 ]; then
         echo "$MACHINE/$USERDIR: Rsync stopped (successfully) at `/bin/date`" | tee -a ${OUTPUTTEMP};
     fi
     SUCCESSES=`expr ${SUCCESSES} + 1`
-    SUCCESSDIRS="${SUCCESSDIRS} $USERDIR"
+    SUCCESSDIRS="${SUCCESSDIRS} $USERDIRLOWER"
 else
     echo "$MACHINE/$USERDIR: Rsync stopped (with error ${STATUS}) at `/bin/date`" | tee -a ${OUTPUTTEMP};
     ./set_status.sh ${MACHINE} down "Rsync stopped (with error ${STATUS}) at `/bin/date`"
@@ -133,6 +134,13 @@ ${RM} -f ${OUTPUTTEMP};
 
 
 } # finish rsync procedure
+
+if test `find $HOME/harvest.pid -mmin +180`; then
+    msg="Old harvest.pid file found. Probably the system was rebooted, or crashed or something. Deleting it and  carrying on";
+    echo "$msg"
+    summarylog "$msg"
+    rm -f $HOME/harvest.pid
+fi
 
 if [ -e $HOME/harvest.pid ]; then
 	echo "Harvest script already running - abort.";

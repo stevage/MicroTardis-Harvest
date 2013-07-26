@@ -1,5 +1,7 @@
 #!/bin/bash
-HTML='<html><head><link rel="stylesheet" type="text/css" href="http://rmmf.isis.rmit.edu.au/static/css/microtardis.css"/></head><body><div class="statusbox">'
+HTML='<!DOCTYPE html><html><head>'
+HTML=$HTML'<style type="text/css">'`cat statusbox.css`'</style>'
+HTML=$HTML'</head><body><div class="statusbox">'
 HTML=$HTML'<ul>'
 HTML=$HTML'<h3>Data harvesting status</h3>'
 for MACHINE in NovaNanoSEM Quanta200 XL30; do
@@ -12,7 +14,7 @@ for MACHINE in NovaNanoSEM Quanta200 XL30; do
   fi
 done
 HTML=$HTML'</ul>'
-HTML=$HTML'<small>Last update: '`date`
+HTML=$HTML'<small>Last update: '`date`'</small>'
 HTML=$HTML'</div></body></html>'
 echo "$HTML" > status.html
 echo "$HTML" > /var/www/html/status.html

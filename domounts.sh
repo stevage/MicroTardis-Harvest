@@ -40,7 +40,7 @@ function domount {
      fi          
      
 }
-
+domount "//supervisor:supervisor@171.170.94.242" "171.170.94.242" "JEOL2100F"
 domount "//supervisor:supervisor@192.168.10.25/Images" "192.168.10.25" "XL30"
 domount "//supervisor:supervisor@192.168.10.24/Users%20Images" "192.168.10.24" "Quanta200"
 domount "//supervisor:supervisor@192.168.10.23/SharedData" "192.168.10.23" "NovaNanoSEM"
